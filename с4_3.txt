@@ -1,0 +1,25 @@
+@startuml
+title Диаграмма компонентов — Аналитическое приложение
+!include <c4/C4_Component>
+
+Container(gui_app, "Десктоп-приложение", "Графический интерфейс на Python + Tkinter", "Позволяет загружать данные, запускать анализ и получать результаты") {
+
+    Component(data_import_module, "Модуль импорта данных", "Загружает таблицы затрат и продаж из файлов Excel/CSV")
+    Component(correlation_module, "Модуль расчёта корреляции", "Вычисляет коэффициенты корреляции между затратами и продажами")
+    Component(regression_module, "Модуль построения регрессии", "Строит регрессионную модель и прогнозирует объёмы продаж")
+    Component(visualization_module, "Модуль визуализации", "Создаёт графики: диаграммы рассеяния, линии регрессии, гистограммы")
+    Component(report_module, "Модуль экспорта отчёта", "Формирует итоговый отчёт с графиками и метриками в формате PDF")
+}
+
+' Взаимосвязи между интерфейсом и компонентами
+Rel(gui_app, data_import_module, "Загружает данные")
+Rel(gui_app, correlation_module, "Передаёт данные для расчёта корреляции")
+Rel(gui_app, regression_module, "Передаёт данные для построения модели")
+Rel(gui_app, visualization_module, "Вызывает визуализацию")
+Rel(gui_app, report_module, "Запускает формирование отчёта")
+
+skinparam {
+  DefaultFontSize 16
+  shadowing true
+}
+@enduml

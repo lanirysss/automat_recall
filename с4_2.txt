@@ -1,0 +1,33 @@
+@startuml
+!include <c4/C4_Container>
+
+title Диаграмма контейнеров — Система анализа рекламных затрат и продаж
+
+Person(analyst, "Маркетолог / Аналитик", "Загружает данные, выполняет анализ, просматривает результаты")
+
+System_Boundary(c1, "Система анализа маркетинговых данных") {
+    Container(gui_app, "Десктоп-приложение", "Python + Tkinter", "Графический интерфейс для загрузки данных, запуска анализа и визуализации")
+    Container(logic_module, "Аналитический модуль", "Python (pandas, scipy, sklearn)", "Рассчитывает коэффициенты корреляции и строит регрессионную модель")
+    Container(report_exporter, "Модуль экспорта", "Python + ReportLab", "Формирует отчет с графиками и результатами анализа в PDF")
+    ContainerDb(data_storage, "Локальное хранилище", "CSV/Excel-файлы", "Файлы с рекламными затратами и продажами")
+}
+
+System_Ext(ads_source, "Система учета рекламных затрат", "Источники данных по затратам")
+System_Ext(sales_source, "Система учета продаж", "Источники данных по объёмам продаж")
+
+Rel(analyst, gui_app, "Работает через UI", "Локально")
+
+Rel(gui_app, logic_module, "Передаёт данные для анализа", "Python вызовы")
+Rel(gui_app, report_exporter, "Запускает экспорт отчета", "PDF")
+Rel(gui_app, data_storage, "Читает / сохраняет данные", "файлы CSV/Excel")
+
+Rel(data_storage, logic_module, "Получает данные для анализа", "таблицы")
+
+Rel(data_storage, ads_source, "Импортирует данные", "CSV/Excel")
+Rel(data_storage, sales_source, "Импортирует данные", "CSV/Excel")
+
+skinparam {
+  DefaultFontSize 16
+  shadowing true
+}
+@enduml

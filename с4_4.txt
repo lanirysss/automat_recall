@@ -1,0 +1,59 @@
+@startuml
+title Диаграмма классов (Аналитический модуль) - Class
+
+skinparam {
+  DefaultFontSize 15
+}
+
+class AnalysisModule {
+  - dataLoader: DataLoader
+  - statisticsService: StatisticsService
+  - regressionModel: RegressionModel
+  + loadData(filePath: String): void
+  + calculateCorrelation(): Dict<String, float>
+  + buildRegression(): RegressionResult
+  + exportReport(outputPath: String): void
+}
+
+class DataSet {
+  - advertisingCosts: Dict<String, List<float>>
+  - sales: List<float>
+  + getChannelData(channel: String): List<float>
+  + getSalesData(): List<float>
+}
+
+class RegressionResult {
+  - coefficients: List<float>
+  - intercept: float
+  - r_squared: float
+  + summarize(): String
+}
+
+interface DataLoader {
+  + loadFromCSV(filePath: String): DataSet
+  + loadFromExcel(filePath: String): DataSet
+}
+
+interface StatisticsService {
+  + calculatePearson(x: List<float>, y: List<float>): float
+  + calculatePValue(x: List<float>, y: List<float>): float
+}
+
+interface RegressionModel {
+  + fit(x: List<List<float>>, y: List<float>): RegressionResult
+}
+
+AnalysisModule --> DataLoader : uses
+AnalysisModule --> StatisticsService : uses
+AnalysisModule --> RegressionModel : uses
+AnalysisModule --> DataSet : creates
+AnalysisModule --> RegressionResult : returns
+
+note top of AnalysisModule : Центральный модуль,\nуправляющий всем процессом анализа
+note top of DataSet : Структура данных — хранит\nзатраты и продажи по периодам
+note top of RegressionResult : Результат построения регрессии:\nкоэффициенты, R², интерцепт
+note top of DataLoader : Интерфейс загрузки данных\nиз внешних таблиц
+note top of StatisticsService : Интерфейс расчёта статистик\n(корреляция, p-value)
+note top of RegressionModel : Интерфейс для построения\nрегрессионной модели
+
+@enduml

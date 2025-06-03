@@ -1,0 +1,52 @@
+@startuml
+title Диаграмма последовательности – Анализ рекламных данных
+
+skinparam {
+  defaultFontSize 16
+}
+
+actor User
+participant GUIApp
+participant DataLoader
+participant DataSet
+participant StatisticsService
+participant RegressionModel
+participant ReportExporter
+
+== Пользователь запускает анализ ==
+
+User -> GUIApp: загрузить и проанализировать данные
+activate GUIApp
+
+== Загрузка данных ==
+GUIApp -> DataLoader: loadFromCSV("данные.csv")
+activate DataLoader
+DataLoader -> DataSet: создать DataSet из файла
+activate DataSet
+DataSet --> DataLoader: объект DataSet
+deactivate DataSet
+DataLoader --> GUIApp: DataSet
+deactivate DataLoader
+
+== Расчёт корреляции ==
+GUIApp -> StatisticsService: calculatePearson(X, Y)
+activate StatisticsService
+StatisticsService --> GUIApp: коэффициент корреляции r
+deactivate StatisticsService
+
+== Построение регрессионной модели ==
+GUIApp -> RegressionModel: fit(X, Y)
+activate RegressionModel
+RegressionModel --> GUIApp: RegressionResult
+deactivate RegressionModel
+
+== Экспорт отчёта ==
+GUIApp -> ReportExporter: exportToPDF(данные, графики, метрики)
+activate ReportExporter
+ReportExporter --> GUIApp: статус "OK"
+deactivate ReportExporter
+
+GUIApp --> User: Отчёт готов, r = ..., модель построена
+
+deactivate GUIApp
+@enduml
