@@ -1,4 +1,3 @@
-Александр, [03.06.2025 23:14]
 import os
 import pandas as pd
 import seaborn as sns
@@ -102,8 +101,6 @@ btn_frame = ttk.Frame(frame)
     def open_edit_window(self, is_new=False):
         selected = self.tree.selection()
         if not is_new and not
-
-Александр, [03.06.2025 23:14]
 not is_new and not selected:
             messagebox.showwarning("Выбор", "Выберите запись для редактирования.")
             return
@@ -201,7 +198,6 @@ ttk.LabelFrame(frame, text="График прогноза объёма прод�
         chart_frame.pack(fill="both", expand=True, padx=10, pady=10)
         self.pred_fig = plt.Figure(figsize=(7, 2.5), dpi=100)
 
-Александр, [03.06.2025 23:14]
 self.pred_canvas = FigureCanvasTkAgg(self.pred_fig, master=chart_frame)
         self.pred_canvas.get_tk_widget().pack(fill="both", expand=True)
 
@@ -296,7 +292,6 @@ values, color=colors, alpha=0.85, edgecolor='gray', linewidth=1.2)
         ax.set_title("Входные затраты и прогноз
 продаж", fontsize=13,
 
-Александр, [03.06.2025 23:14]
 fontweight='bold')
         ax.set_ylabel("Тысячи рублей", fontsize=11)
         ax.set_ylim(0, max(values) * 1.25)  # Добавить немного пространства сверху
